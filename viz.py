@@ -57,7 +57,7 @@ for disorder in select:
 
     plot = sns.lineplot(means_per_year, ax=ax[counter])
     ax[counter].set_title(disorder)
-    plot.set(xlabel='Year', ylabel='Mean Percentage of Country Population With ' + disorder + " Disorder")
+    plot.set(xlabel='Year', ylabel='Mean Percentage of Country Population With ' + disorder + " Disorder (%)")
     counter += 1
 
 fig.suptitle("Mean Prevalence of Disorders Throughout All Countries Over Time")
@@ -72,3 +72,31 @@ for disorder in select:
                         animation_frame='Year')
     pio.write_html(fig, file="Graphs/" + disorder + 'Map.html', auto_open=False)
 
+select1 = select[:2]
+select2 = select[2:]
+
+fig, ax = plt.subplots(1, len(select1), figsize=(20, 6))
+counter = 0
+for disorder in select1:
+    top5 = df.loc[is2019].nlargest(5, disorder)
+    adjusted = top5.loc[:, ['Entity', disorder]]
+    print(adjusted)
+    plot = sns.barplot(x=adjusted["Entity"], y=adjusted[disorder], ax=ax[counter])
+    plot.set(ylabel="% of Population Suffering From " + " Disorder (%)", xlabel="Country")
+    counter += 1
+
+fig.suptitle("Top 5 Countries With Highest Prevalence of Each Disorder in 2019 (1)")
+plt.savefig("Graphs/highestInstances1.png")
+
+fig, ax = plt.subplots(1, len(select2), figsize=(20, 6))
+counter = 0
+for disorder in select2:
+    top5 = df.loc[is2019].nlargest(5, disorder)
+    adjusted = top5.loc[:, ['Entity', disorder]]
+    print(adjusted)
+    plot = sns.barplot(x=adjusted["Entity"], y=adjusted[disorder], ax=ax[counter])
+    plot.set(ylabel="% of Population Suffering From " + " Disorder (%)", xlabel="Country")
+    counter += 1
+
+fig.suptitle("Top 5 Countries With Highest Prevalence of Each Disorder in 2019 (2)")
+plt.savefig("Graphs/highestInstances2.png")
