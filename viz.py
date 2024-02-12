@@ -12,12 +12,58 @@ import plotly.io as pio
 
 df = pandas.read_csv("mental-illness_data.csv")
 continents = pandas.read_csv("continents2.csv")
+GDP= pandas.read_csv("API_NY.GDP.PCAP.CD_DS2_en_csv_v2_73.csv")
 continents.set_index('name', inplace=True)
 
 select = ["Schizophrenia", "Depressive", "Anxiety", "Bipolar", "Eating"]
 is2019 = df['Year'] == 2019
 
 data = {}
+
+
+#Get 2019 GDP's of each country
+country_gdp_2019 = pd.Series(GDP['2019'].values, index=GDP['Country Code']).to_dict()
+
+# If you specifically want an array of dictionaries (one per country)
+array_country_gdp_2019 = [{k: v} for k, v in country_gdp_2019.items()]
+
+#Get 2019 Anxiety Report
+# Assuming df is your DataFrame and it has columns 'Country_Code', 'Year' and 'GDP'
+df_2019 = df[df['Year'] == 2019]
+
+# Create a dictionary mapping country codes to their 2019 GDP
+country_anxiety_2019 = pd.Series(df_2019.Anxiety.values, index=df_2019.Code).to_dict()
+
+# If you specifically want an array of dictionaries (one per country)
+array_country_gdp_2019 = [{k: v} for k, v in country_anxiety_2019.items()]
+
+#Sort both
+myKeys = list(country_anxiety_2019.keys())
+myKeys.sort()
+anxietySorted = {i: country_anxiety_2019[i] for i in myKeys}
+
+myKeys1 = list(country_gdp_2019.keys())
+myKeys1.sort()
+gdpSorted = {i: country_gdp_2019[i] for i in myKeys1}
+
+def my_filtering_function(pair):
+    country_codes = df['Code'].unique()
+    country_codes_list = country_codes.tolist()
+    wanted_keys = country_codes_list
+    key, value = pair
+    if key in wanted_keys:
+        return True  # keep pair in the filtered dictionary
+    else:
+        return False  # filter pair out of the dictionary
+
+newGDP= filtered_grades = dict(filter(my_filtering_function, gdpSorted.items()))
+
+print(newGDP)
+print(anxietySorted)
+
+
+
+
 for disorder in select:
     mean = df.loc[is2019, disorder].mean()
     data[disorder] = mean
