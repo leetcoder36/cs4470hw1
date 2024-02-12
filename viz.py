@@ -6,6 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from itertools import combinations
+import plotly.express as px
+import plotly.io as pio
 
 
 df = pandas.read_csv("mental-illness_data.csv")
@@ -59,5 +61,12 @@ for disorder in select:
 fig.suptitle("Mean Prevalence of Disorders Throughout All Countries Over Time")
 plt.tight_layout()
 plt.savefig("Graphs/meansOverTime.png")
+plt.clf()
 
+for disorder in select:
+    fig = px.choropleth(df, locations='Code', color=disorder, hover_name='Entity',
+                        projection='natural earth',
+                        title=disorder + ' Prevalence as Percentage of Population by Country',
+                        animation_frame='Year')
+    pio.write_html(fig, file="Graphs/" + disorder + 'Map.html', auto_open=False)
 
