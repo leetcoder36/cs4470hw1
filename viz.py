@@ -54,8 +54,10 @@ for disorder in select:
         if year % 2 == 0:
             mean = df.loc[df["Year"] == year, disorder].mean()
             means_per_year[year] = mean
-    sns.lineplot(means_per_year, ax=ax[counter])
+
+    plot = sns.lineplot(means_per_year, ax=ax[counter])
     ax[counter].set_title(disorder)
+    plot.set(xlabel='Year', ylabel='Mean Percentage of Country Population With ' + disorder + " Disorder")
     counter += 1
 
 fig.suptitle("Mean Prevalence of Disorders Throughout All Countries Over Time")
