@@ -9,6 +9,8 @@ from itertools import combinations
 
 
 df = pandas.read_csv("mental-illness_data.csv")
+continents = pandas.read_csv("continents2.csv")
+continents.set_index('name', inplace=True)
 
 select = ["Schizophrenia", "Depressive", "Anxiety", "Bipolar", "Eating"]
 is2019 = df['Year'] == 2019
@@ -37,9 +39,25 @@ for combination in combinations:
         sns.scatterplot(x=x, y=y, ax=ax[1, 5 - counter], color=palette[counter])
     counter += 1
 
-fig.suptitle("Correlations Between Prevalence of Mental Disorders Across All Countries in 2019")
+fig.suptitle("Correlations Between Prevalence of Mental Disorders Across All Countries in 2019 (%)")
 plt.tight_layout()
 plt.savefig("Graphs/disorderCorrelations.png")
+plt.clf()
 
+fig, ax = plt.subplots(1, 5, figsize=(16, 6))
+counter = 0
+for disorder in select:
+    means_per_year = {}
+    for year in df["Year"]:
+        if year % 2 == 0:
+            mean = df.loc[df["Year"] == year, disorder].mean()
+            means_per_year[year] = mean
+    sns.lineplot(means_per_year, ax=ax[counter])
+    ax[counter].set_title(disorder)
+    counter += 1
+
+fig.suptitle("Mean Prevalence of Disorders Throughout All Countries Over Time")
+plt.tight_layout()
+plt.savefig("Graphs/meansOverTime.png")
 
 
