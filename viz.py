@@ -82,7 +82,7 @@ for disorder in select1:
     adjusted = top5.loc[:, ['Entity', disorder]]
     print(adjusted)
     plot = sns.barplot(x=adjusted["Entity"], y=adjusted[disorder], ax=ax[counter])
-    plot.set(ylabel="% of Population Suffering From " + " Disorder (%)", xlabel="Country")
+    plot.set(ylabel="% of Population Suffering From " + " Disorder (%)", xlabel="Country", title=disorder)
     counter += 1
 
 fig.suptitle("Top 5 Countries With Highest Prevalence of Each Disorder in 2019 (1)")
@@ -95,7 +95,7 @@ for disorder in select2:
     adjusted = top5.loc[:, ['Entity', disorder]]
     print(adjusted)
     plot = sns.barplot(x=adjusted["Entity"], y=adjusted[disorder], ax=ax[counter])
-    plot.set(ylabel="% of Population Suffering From " + " Disorder (%)", xlabel="Country")
+    plot.set(ylabel="% of Population Suffering From " + " Disorder (%)", xlabel="Country", title=disorder)
     counter += 1
 
 fig.suptitle("Top 5 Countries With Highest Prevalence of Each Disorder in 2019 (2)")
