@@ -28,13 +28,11 @@ country_gdp_2019 = pd.Series(GDP['2019'].values, index=GDP['Country Code']).to_d
 array_country_gdp_2019 = [{k: v} for k, v in country_gdp_2019.items()]
 
 #Get 2019 Anxiety Report
-# Assuming df is your DataFrame and it has columns 'Country_Code', 'Year' and 'GDP'
 df_2019 = df[df['Year'] == 2019]
 
 # Create a dictionary mapping country codes to their 2019 GDP
 country_anxiety_2019 = pd.Series(df_2019.Anxiety.values, index=df_2019.Code).to_dict()
 
-# If you specifically want an array of dictionaries (one per country)
 array_country_gdp_2019 = [{k: v} for k, v in country_anxiety_2019.items()]
 
 #Sort both
@@ -56,10 +54,31 @@ def my_filtering_function(pair):
     else:
         return False  # filter pair out of the dictionary
 
-newGDP= filtered_grades = dict(filter(my_filtering_function, gdpSorted.items()))
+newGDP= dict(filter(my_filtering_function, gdpSorted.items()))
+
 
 print(newGDP)
 print(anxietySorted)
+gdpList = list(newGDP.keys())
+anxietyList = list(anxietySorted.keys())
+temp3=[]
+for element in anxietyList:
+    if element not in gdpList:
+        temp3.append(element)
+
+print(temp3)
+for i in temp3:
+    anxietySorted.pop(i)
+
+gdpValues= list(newGDP.values())
+anxietyValues= list(anxietySorted.values())
+
+
+print(len(gdpValues))
+print(len(anxietyValues))
+plt.scatter(gdpValues,anxietyValues)
+plt.show(block=True)
+
 
 
 
@@ -146,3 +165,4 @@ for disorder in select2:
 
 fig.suptitle("Top 5 Countries With Highest Prevalence of Each Disorder in 2019 (2)")
 plt.savefig("Graphs/highestInstances2.png")
+
