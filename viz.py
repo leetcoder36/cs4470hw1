@@ -10,6 +10,7 @@ import plotly.express as px
 import plotly.io as pio
 
 
+df_world = pandas.read_csv("world_data.csv")
 df = pandas.read_csv("mental-illness_data.csv")
 continents = pandas.read_csv("continents2.csv")
 GDP= pandas.read_csv("API_NY.GDP.PCAP.CD_DS2_en_csv_v2_73.csv")
@@ -19,10 +20,6 @@ select = ["Schizophrenia", "Depressive", "Anxiety", "Bipolar", "Eating"]
 is2019 = df['Year'] == 2019
 
 data = {}
-
-
-
-
 
 
 #Get 2019 GDP's of each country
@@ -136,22 +133,14 @@ plt.savefig("Graphs/disorderGPDCorrelation2.png")
 plt.clf()
 
 
-
-
-
-
-
-
-
 for disorder in select:
-    mean = df.loc[is2019, disorder].mean()
-    data[disorder] = mean
+    data[disorder] = (df_2019.loc[is2019])[disorder]
 
 custom_palette = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"]
-g1 = sns.barplot(data, palette=custom_palette).set_title("Mean Prevalence of Mental Illnesses in 2019")
+g1 = sns.barplot(data, palette=custom_palette).set_title("World Prevalence of Mental Illnesses in 2019")
 plt.xlabel("Mental Disorder Type")
-plt.ylabel("Mean Prevalence Across All Countries (%)")
-plt.savefig("Graphs/disorderMeans2019.png")
+plt.ylabel("Prevalence Among World Population (%)")
+plt.savefig("Graphs/world_rates.png")
 
 fig, ax = plt.subplots(2, 5, figsize=(16, 6))
 palette = sns.color_palette("tab10", 10)
