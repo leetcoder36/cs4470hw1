@@ -1,0 +1,4 @@
+Diego Verastegui-
+Created python code for comparing countries GDP per capita to the mental disease along with making the graphs and wrote the analysis
+
+Oliver Papay-
