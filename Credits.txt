@@ -2,3 +2,4 @@ Diego Verastegui-
 Created python code for comparing countries GDP per capita to the mental disease along with making the graphs and wrote the analysis
 
 Oliver Papay-
+Python code for anxiety, bipolar, depressive, eating and schizpohrenia maps. Code for disorder correlations, highest instances 1 and 2, meansOverTime and world_rates
